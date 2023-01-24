@@ -1,15 +1,25 @@
 import { atom, selector } from "recoil";
 
+// enumerable의 약자로 열거가능한 이라는뜻
+// protectable하게 만들기 위해서 각각의 string들을
+// enum은 기본적으로 숫자다. 
+//  그래서 실제로는 0,1,2 순이다.
+export enum Categories{
+    "TO_DO" ,
+     "DOING",
+     "DONE",
+}
+
 export interface IToDo{
     text:string;
     id: number;
-    category: "TO_DO" | "DOING" | "DONE";
+    category: Categories;
     //  이 세개중에 한개를 사용해야한다.
 }
 
-export const categoryState = atom({
+export const categoryState = atom<Categories>({
     key:"category",
-    default:"TO_DO",
+    default:Categories.TO_DO,
 });
 
 
