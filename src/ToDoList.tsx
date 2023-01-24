@@ -46,6 +46,7 @@ LastName:string;
 UserName:string;
 Password:string;
 Password1:string;
+extraError?:string;
 }
 
 const messageSpan = styled.span`
@@ -54,16 +55,27 @@ color: red;
 
 
 function ToDoList(){
-    const {register,handleSubmit,formState:{errors}} = 
-    useForm<IUseForm>({
+    const {register,
+        handleSubmit,
+        formState:{errors},
+        setError,
+        // setError는 특정한 에러를 발생시키게해준다.
+    } = useForm<IUseForm>({
         defaultValues:{
             Email:"@naver.com",
         }
     });
     // watch는 form의 입력값들의 변화를 관찰 할 수 있게해주는함수
-    const onValid = (data:any) =>{
-        console.log(data);
-    }
+    const onValid = (data:IUseForm) =>{
+        if(data.Password !== data.Password1){
+            setError("Password1",
+            {message:"Password are not the same"},
+            {shouldFocus:true}
+            )
+        }
+        setError("extraError",{message:"Server offLine."});
+        // 특정항목이 아닌 전체 form에 해당되는 에러
+    };
     console.log(errors);
     // onValid함수는 모든 validation을 다 마쳤을때만 호출된다.
 
@@ -72,6 +84,7 @@ function ToDoList(){
                  <form 
                  style={{display:"flex",flexDirection:"column"}}
                  onSubmit={handleSubmit(onValid,)}>
+
                     <input {...register("Email",{
                         required: "Email is reqired",
                         pattern:{
@@ -87,13 +100,16 @@ function ToDoList(){
                         }}>
                     {errors.Email?.message}
                         </span>
+
                     <input {...register("FirstName" ,{
                         required: "FirstName is required",
+                        validate: (value) => !value.includes("nico") || "error message"
                     })} 
                     placeholder="First Name"/>
                      <span>
                     {errors.FirstName?.message}
                     </span>
+
                     <input {...register("LastName",{
                         required: "LastName is required"
                     })} 
@@ -103,21 +119,20 @@ function ToDoList(){
                     </span> 
 
                     <input {...register("UserName",{
-                        required: true,minLength:10})} 
-                    placeholder="UserName is required"/>
+                        required:"UserName is required",minLength:10})} 
+                    placeholder="UserName"/>
                     <span>
                     {errors.UserName?.message}
                     </span> 
                     
                     <input {...register("Password",{
-                        required: "Password is required", 
-                        minLength:{
-                            value:5,
-                            message:"Your password is too short",
-
-                        },
+                        required: "write here",  minLength:5
+                       
                         })} 
                     placeholder="Password"/>
+                    <span>
+                    {errors.Password?.message}
+                    </span> 
                     
                     <input {...register("Password1",{
                         required: "Password is required", 
@@ -127,7 +142,15 @@ function ToDoList(){
                         },
                     })} 
                     placeholder="Password1"/>
+                    <span>
+                    {errors.Password1?.message}
+                    </span> 
+
                     <button>Add</button>
+
+                    <span>
+                    {errors?.extraError?.message}
+                    </span> 
                </form>
                 </div>
     );
