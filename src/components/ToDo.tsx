@@ -1,23 +1,51 @@
-import { IToDo } from "../atoms";
+import React from "react";
+import { useSetRecoilState } from "recoil";
+import { IToDo,toDoState } from "../atoms";
 
-function ToDo({text,category}:IToDo){
-    const onClick = (newCategory:IToDo["category"]) =>{
-        console.log("I wanna go",newCategory);
+function ToDo({text,category,id}:IToDo){
+    const setToDos = useSetRecoilState(toDoState);
+    const onClick = (event:React.MouseEvent<HTMLButtonElement>) =>
+    {
+        const {
+            currentTarget:{name},
+        }
+        = event;
+        setToDos((oldToDos) => {
+            const targetIndex = oldToDos.findIndex((toDo) => toDo.id === id);
+            // console.log(targetIndex);
+            // const oldToDos = oldToDos[targetIndex];
+            const newToDos = {text, id, category: name as any};
+            // as any라고 적음으로써 타입스크립트에게 체크하지 말라함
+            return [...oldToDos.slice(0,targetIndex),
+            newToDos,
+            ...oldToDos.slice(targetIndex+1)
+        ];
+        });
     };
-    return (  
+        return (  
         <li>
         <span>{text}</span> 
-        {category !== "DOING" &&(
-             <button onClick={() => onClick("DOING")}>Doing</button>)}
-             {/* 인자를 넘기기 위해 익명함수를 부른뒤 아래 같은 식으로 사용 
-              <button onClick={() => onClick("DOING")()}>Doing</button>)}
-             */}
+
+        {category !== "DOING" && (
+        <button name="DOING" onClick={onClick}>
+          Doing
+        </button>
+      )}
+            
         {category !== "TO_DO" && (
-        <button onClick={() => onClick("TO_DO")}>To Do</button>)}
+        <button name="TO_DO"  onClick={onClick}>
+            To Do
+        </button>
+        )}
+
         {category !== "DONE" &&(
-             <button onClick={() => onClick("DONE")}>Done</button>)}
+             <button name="DONE" onClick={onClick}>
+                Done
+             </button>
+             )}
         </li>
     );
 }
 
 export default ToDo;
+
