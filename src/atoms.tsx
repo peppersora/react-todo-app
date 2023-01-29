@@ -1,7 +1,15 @@
 import { atom } from "recoil";
 
-interface IToDoState {
-    [key: string]: string[];
+// string이 아닌 object인 todo를 만들기 위해 type을 먼저 정하자
+
+export interface ITodo {
+  id:number;
+  text:string;
+}
+
+
+ interface IToDoState {
+    [key: string]: ITodo[];
   }
   
 
@@ -9,9 +17,9 @@ interface IToDoState {
 export const toDoState = atom<IToDoState>({
     key:"toDo",
     default: {
-        "To Do": ["a", "b"],
-        Doing: ["c", "d", "e"],
-        Done: ["f"],
+        "To Do": [],
+        Doing: [],
+        Done: [],
       },
 });
 // * 보드안에서 이동시

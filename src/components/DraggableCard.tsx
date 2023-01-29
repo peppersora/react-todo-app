@@ -16,17 +16,18 @@ const Card = styled.div<{isDragging:boolean}>`
 `;
 
 interface IDraggableCardProps {
-    toDo:string;
-    index:number;
+    toDoId: number;
+  toDoText: string;
+  index: number;
 }
 
-export function DraggableCard({toDo,index}:IDraggableCardProps){
+export function DraggableCard
+({toDoId,toDoText,index}:IDraggableCardProps){
     return(
 <Draggable
-key={toDo} 
 // react.js에서 key는 숫자였지만
 // key는 draggableId와 무조건 같아야한다.
-draggableId={toDo} 
+draggableId={toDoId+""} 
 index={index}>
  {(magic,snapshot) =>(
    <Card 
@@ -35,7 +36,7 @@ index={index}>
    {...magic.dragHandleProps}
     {...magic.draggableProps}
    >
-    {toDo}
+    {toDoText}
     </Card>
     )}
 </Draggable>

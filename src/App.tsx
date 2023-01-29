@@ -18,7 +18,6 @@ const Wrapper = styled.div`
 
 const Boards = styled.div`
   display: flex;
-  flex-direction: row;
   justify-content: center;
   align-items: center;
   width: 100%;
@@ -38,8 +37,9 @@ function App() {
       // 같은 보드에서만 움직였 다.
       setToDos((allBoards) => {
         const boardCopy = [...allBoards[source.droppableId]];
+        const taskObj = boardCopy[source.index];
         boardCopy.splice(source.index, 1);
-        boardCopy.splice(destination?.index, 0, draggableId);
+        boardCopy.splice(destination?.index, 0, taskObj);
         // allBoards는 array이기때문에...
         return {
           ...allBoards,
@@ -53,11 +53,12 @@ function App() {
       //2. 새로운 state를 만들어서 return 해줄 수 있다.
       setToDos((allBoards) => {
         const sourceBoard = [...allBoards[source.droppableId]];
+        const taskObj = sourceBoard[source.index];
         const destinationBoard = [...allBoards[destination?.droppableId]];
         // 가져오는것은 다했으니 이제 삭제하기
         sourceBoard.splice(source.index,1);
         // sourceBoard에서 index를 한개만 삭제할것이다
-        destinationBoard.splice(destination?.index,0,draggableId);
+        destinationBoard.splice(destination?.index,0,taskObj);
         // 가져온 draggableId를 움직임이 끝나는 board의 index에 넣어줬다.
         return{
           ...allBoards,
@@ -74,7 +75,7 @@ function App() {
       <Wrapper>
         <Boards>
           {Object.keys(toDos).map((boardId) => (
-            <Board boardId={boardId} key={boardId} toDos={toDos[boardId]} />
+            <Board boardId={boardId} key={boardId}  toDos={toDos[boardId]} />
           ))}
         </Boards>
       </Wrapper>
