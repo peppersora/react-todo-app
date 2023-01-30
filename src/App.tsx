@@ -4,6 +4,8 @@ import { useRecoilState } from "recoil";
 import styled from "styled-components";
 import { toDoState } from "./atoms";
 import Board from "./components/Board";
+import GarbageBox from "./components/GarbageBox";
+
 
 
 const Wrapper = styled.div`
@@ -34,7 +36,7 @@ function App() {
     const { destination, draggableId, source } = info;
     if (!destination) return;
     if (destination?.droppableId === source.droppableId) {
-      // 같은 보드에서만 움직였 다.
+      // 같은 보드에서만 움직였다.
       setToDos((allBoards) => {
         const boardCopy = [...allBoards[source.droppableId]];
         const taskObj = boardCopy[source.index];
@@ -78,6 +80,7 @@ function App() {
             <Board boardId={boardId} key={boardId}  toDos={toDos[boardId]} />
           ))}
         </Boards>
+        <GarbageBox/>
       </Wrapper>
     </DragDropContext>
   );

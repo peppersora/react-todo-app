@@ -1,10 +1,11 @@
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { Droppable } from "react-beautiful-dnd";
 import { useForm } from "react-hook-form";
 import styled from "styled-components";
 import DraggableCard from "./DraggableCard";
 import { ITodo, toDoState } from "../atoms";
 import { useSetRecoilState } from "recoil";
+
 
 const Wrapper = styled.div`
   width: 300px;
@@ -24,7 +25,6 @@ const Form = styled.form`
 `;
 
 
-
 const Title = styled.div`
   text-align: center;
   font-weight: 600;
@@ -33,6 +33,7 @@ const Title = styled.div`
   font-size: 18px;
   align-items: center;
 `;
+
 
 interface IAreaProps{
   isDraggingOver:boolean;
@@ -57,8 +58,10 @@ interface IForm {
   toDo:string;
  }
 
+
 function Board({toDos,boardId}: IBoardProps){
-      const setToDos = useSetRecoilState(toDoState);
+  const setToDos = useSetRecoilState(toDoState);
+
       const {register, setValue, handleSubmit} = useForm<IForm>();
       const onValid = ({toDo}:IForm) => {
       const newToDo = {
@@ -74,12 +77,16 @@ function Board({toDos,boardId}: IBoardProps){
         }
       });
         setValue("toDo","");
-      }
+  }
+
     return(
-        <Wrapper>
+      <Wrapper>
             <Title>{boardId}</Title>
-           <Form onSubmit={handleSubmit(onValid)}>
-            <input {...register("toDo",{required:true})} 
+           <Form 
+           onSubmit=
+           {handleSubmit(onValid)}>
+            <input 
+            {...register("toDo",{required:true})} 
             type="text" 
             placeholder={`Add task on ${boardId}`} />
            </Form>
@@ -101,8 +108,11 @@ function Board({toDos,boardId}: IBoardProps){
           board의 사이즈가 변하지 않도록해준다. */}
           </Area>
         }
-      </Droppable>     
+      </Droppable> 
     </Wrapper>
+  
+  
     );
 }
 export default Board;
+

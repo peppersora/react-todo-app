@@ -1,6 +1,13 @@
 import { atom } from "recoil";
-
+import { recoilPersist } from "recoil-persist";
 // string이 아닌 object인 todo를 만들기 위해 type을 먼저 정하자
+
+// localstorage를 위해 recoilpersist사용
+const { persistAtom } =recoilPersist({
+  key:"recoil-persist",
+  storage: localStorage,
+});
+
 
 export interface ITodo {
   id:number;
@@ -21,6 +28,8 @@ export const toDoState = atom<IToDoState>({
         Doing: [],
         Done: [],
       },
+      // localstorage를 위해 적용한 속성
+      effects_UNSTABLE: [persistAtom],
 });
 // * 보드안에서 이동시
 // 1. 수정이 일어난 property만 복사한다.
