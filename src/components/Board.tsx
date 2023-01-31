@@ -3,8 +3,8 @@ import { Droppable } from "react-beautiful-dnd";
 import { useForm } from "react-hook-form";
 import styled from "styled-components";
 import DraggableCard from "./DraggableCard";
-import { ITodo, toDoState } from "../atoms";
-import { useSetRecoilState } from "recoil";
+import { BoardState, ITodo, toDoState } from "../atoms";
+import { useRecoilState, useSetRecoilState } from "recoil";
 
 
 const Wrapper = styled.div`
@@ -60,8 +60,7 @@ interface IForm {
 
 
 function Board({toDos,boardId}: IBoardProps){
-  const setToDos = useSetRecoilState(toDoState);
-
+      const setToDos = useSetRecoilState(toDoState);
       const {register, setValue, handleSubmit} = useForm<IForm>();
       const onValid = ({toDo}:IForm) => {
       const newToDo = {

@@ -4,6 +4,7 @@ import { useRecoilState } from "recoil";
 import styled from "styled-components";
 import { toDoState } from "./atoms";
 import Board from "./components/Board";
+import Clock from "./components/Clock";
 import GarbageBox from "./components/GarbageBox";
 
 
@@ -74,6 +75,8 @@ function App() {
  
   return (
     <DragDropContext onDragEnd={onDragEnd}>
+   
+     <Clock/>
       <Wrapper>
         <Boards>
           {Object.keys(toDos).map((boardId) => (
@@ -82,6 +85,7 @@ function App() {
         </Boards>
         <GarbageBox/>
       </Wrapper>
+      
     </DragDropContext>
   );
 }

@@ -31,6 +31,30 @@ export const toDoState = atom<IToDoState>({
       // localstorage를 위해 적용한 속성
       effects_UNSTABLE: [persistAtom],
 });
+
+interface IBoard {
+  id:number;
+  text:string;
+}
+
+
+interface IBoardState{
+  [key: string] : IBoard[];
+}
+
+export const BoardState = atom<IBoardState>({
+  key:"board",
+  default:{
+    "boardId":[],
+    },
+    // localstorage를 위해 적용한 속성
+    effects_UNSTABLE: [persistAtom],
+});
+
+export const garbageBox = atom<boolean>({
+  key:"garbage",
+  default: false,
+});
 // * 보드안에서 이동시
 // 1. 수정이 일어난 property만 복사한다.
 // 2. 그리고 그 복사본을 기존 default옆에 붙여준다.
