@@ -16,7 +16,7 @@ const Card = styled.div<{isDragging:boolean}>`
 `;
 
 interface IDraggableCardProps {
-    toDoId: number;
+  toDoId: number;
   toDoText: string;
   index: number;
 }

@@ -58,10 +58,12 @@ interface IForm {
   toDo:string;
  }
 
-
+// input을 하면 card가 만들어진다.
 function Board({toDos,boardId}: IBoardProps){
       const setToDos = useSetRecoilState(toDoState);
+      // todoState에 저장된 setter와 updater역할
       const {register, setValue, handleSubmit} = useForm<IForm>();
+      // register해준다 setValue, handleSubmit을
       const onValid = ({toDo}:IForm) => {
       const newToDo = {
         id: Date.now(),
@@ -86,9 +88,11 @@ function Board({toDos,boardId}: IBoardProps){
            {handleSubmit(onValid)}>
             <input 
             {...register("toDo",{required:true})} 
+            // toDo라는 이름으로 regiter해주었다.(setValue, handleSubmit)을
             type="text" 
             placeholder={`Add task on ${boardId}`} />
            </Form>
+
       <Droppable droppableId={boardId}>
         {(magic,info) =>
         <Area isDraggingOver={info.isDraggingOver}  

@@ -6,6 +6,7 @@ import { toDoState } from "./atoms";
 import Board from "./components/Board";
 import Clock from "./components/Clock";
 import GarbageBox from "./components/GarbageBox";
+import MakeBoard from "./components/MakeBoard";
 
 
 
@@ -16,6 +17,13 @@ const Wrapper = styled.div`
   justify-content: center;
   align-items: center;
   height: 100vh;
+`;
+
+const BoardBox = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 50%;
 `;
 
 
@@ -33,7 +41,7 @@ function App() {
   const [toDos, setToDos] = useRecoilState(toDoState);
   // onDragEnd Fn은 드래그가 끝났을때 실행되는 함수
   const onDragEnd = (info:DropResult) =>  {
-    console.log(info); 
+    // console.log(info); 
     const { destination, draggableId, source } = info;
     if (!destination) return;
     if (destination?.droppableId === source.droppableId) {
@@ -74,9 +82,14 @@ function App() {
   };
  
   return (
-    <DragDropContext onDragEnd={onDragEnd}>
-   
+    <DragDropContext onDragEnd={onDragEnd}> 
      <Clock/>
+     <BoardBox>
+    
+
+   
+    
+     </BoardBox>
       <Wrapper>
         <Boards>
           {Object.keys(toDos).map((boardId) => (
