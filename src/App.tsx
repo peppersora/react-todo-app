@@ -7,6 +7,7 @@ import Board from "./components/Board";
 import Clock from "./components/Clock";
 import GarbageBox from "./components/GarbageBox";
 import MakeBoard from "./components/MakeBoard";
+import { ToggleSwitch } from "./components/ToggleSwitch";
 
 
 
@@ -17,13 +18,6 @@ const Wrapper = styled.div`
   justify-content: center;
   align-items: center;
   height: 100vh;
-`;
-
-const BoardBox = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 50%;
 `;
 
 
@@ -83,13 +77,8 @@ function App() {
  
   return (
     <DragDropContext onDragEnd={onDragEnd}> 
-     <Clock/>
-     <BoardBox>
-    
-
-   
-    
-     </BoardBox>
+     <Clock/>  
+      <MakeBoard/>   
       <Wrapper>
         <Boards>
           {Object.keys(toDos).map((boardId) => (
