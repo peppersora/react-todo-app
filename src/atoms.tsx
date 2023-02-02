@@ -10,27 +10,30 @@ const { persistAtom } =recoilPersist({
 
 
 export interface ITodo {
-  id:number;
-  // 인터페이스 ITodo의( name이 id이고, value가 number) => property!
-  text:string;
+  id: number;
+  name: string;
+  createdAt: Date;
+
 }
 
 
- interface IToDoState {
+ interface IToDos {
     [key: string]: ITodo[];
   }
   
 
 // card를 드래그했을때 제자리로 가지 않게 하기 위해 recoil 사용
-export const toDoState = atom<IToDoState>({
-    key:"toDo",
-    default: {   
-        "To Do": [],
-        Doing: [],
-        Done: [],
-      },
+export const defaultTodos: IToDos{
+      Todos:[],
+      Doing: [],
+      Done: [],
       // localstorage를 위해 적용한 속성
       effects_UNSTABLE: [persistAtom],
+};
+
+export const todostate = atom<IToDos>({
+  key: "todostate",
+  default:
 });
 
 // ===============  board =================

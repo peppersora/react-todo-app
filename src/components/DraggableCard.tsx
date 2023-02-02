@@ -1,6 +1,7 @@
 import React from "react";
 import { Draggable } from "react-beautiful-dnd";
 import styled from "styled-components";
+import { IBoard } from "../atoms";
 
 
 const Card = styled.div<{isDragging:boolean}>`
@@ -17,26 +18,29 @@ const Card = styled.div<{isDragging:boolean}>`
 
 interface IDraggableCardProps {
   toDoId: number;
-  toDoText: string;
+ 
   index: number;
+  todo: IBoard[];
 }
 
 export function DraggableCard
-({toDoId,toDoText,index}:IDraggableCardProps){
+({toDoId,index,todo}:IDraggableCardProps){
     return(
 <Draggable
 // react.js에서 key는 숫자였지만
 // key는 draggableId와 무조건 같아야한다.
 draggableId={toDoId+""} 
-index={index}>
+index={index}
+>
  {(magic,snapshot) =>(
    <Card 
    isDragging={snapshot.isDragging}
    ref={magic.innerRef} 
    {...magic.dragHandleProps}
     {...magic.draggableProps}
+    {...magic.draggableProps}
    >
-    {toDoText}
+    {todo}
     </Card>
     )}
 </Draggable>

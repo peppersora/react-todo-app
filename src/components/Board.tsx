@@ -48,7 +48,6 @@ const Area = styled.div<IAreaProps>`
   padding: 20px;
 `;
 
-
  interface IBoardProps {
     toDos:ITodo[];
     boardId: string;
@@ -99,12 +98,12 @@ function Board({toDos,boardId}: IBoardProps){
         draggingFromThisWith={Boolean(info.draggingFromThisWith)}
         ref={magic.innerRef} 
         {...magic.droppableProps}>
-          {toDos.map((toDo,index) => (
+          {toDos.map((toDo,index,todo) => (
             <DraggableCard 
               key={toDo.id}
-              index={index} 
-              toDoId={toDo.id} 
-              toDoText={toDo.text}/>
+              index={index}
+              toDoId={toDo.id}
+              toDoText={toDo.text} todo={toDo}/>
           ))}
           {magic.placeholder}
           {/* placeholder는 드래그시
