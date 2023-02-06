@@ -1,7 +1,7 @@
 import React from "react";
 import { Draggable } from "react-beautiful-dnd";
 import styled from "styled-components";
-import { IBoard } from "../atoms";
+import { ITodo,  } from "../atoms";
 
 
 const Card = styled.div<{isDragging:boolean}>`
@@ -17,10 +17,9 @@ const Card = styled.div<{isDragging:boolean}>`
 `;
 
 interface IDraggableCardProps {
-  toDoId: number;
- 
+  toDoId: string;
   index: number;
-  todo: IBoard[];
+  todo: ITodo;
 }
 
 export function DraggableCard
@@ -40,7 +39,7 @@ index={index}
     {...magic.draggableProps}
     {...magic.draggableProps}
    >
-    {todo}
+    {todo.name}
     </Card>
     )}
 </Draggable>
