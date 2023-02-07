@@ -10,6 +10,7 @@ import { loadTodos } from "./localstorage";
 
 
 export interface ITodo {
+  map(arg0: (todo: any, index: any) => JSX.Element): import("react").ReactNode;
   id: number;
   name: string;
   createdAt: Date;
@@ -36,7 +37,9 @@ export const todostate = atom<IToDos>({
   default: loadTodos() ?? defaultTodos,
 });
 
-// ===============  board =================
+export let latestId = {
+  id: 0,
+};
 
 // ====== garbage==========
 export const garbageBox = atom<boolean>({

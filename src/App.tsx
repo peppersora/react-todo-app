@@ -2,7 +2,7 @@
 import { DragDropContext, DropResult } from "react-beautiful-dnd";
 import { useRecoilState } from "recoil";
 import styled from "styled-components";
-import { toDoState } from "./atoms";
+import { todostate, toDoState } from "./atoms";
 import Board from "./components/Board";
 import Clock from "./components/Clock";
 import GarbageBox from "./components/GarbageBox";
@@ -32,7 +32,7 @@ const Boards = styled.div`
 
 function App() {
   // atom의 값 뿐만아니라 수정하는 값까지 가지고 오기위해 state를 사용
-  const [toDos, setToDos] = useRecoilState(toDoState);
+  const [toDos, setToDos] = useRecoilState(todostate);
   // onDragEnd Fn은 드래그가 끝났을때 실행되는 함수
   const onDragEnd = (info:DropResult) =>  {
     // console.log(info); 
