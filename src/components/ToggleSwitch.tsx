@@ -39,7 +39,7 @@ transition: .4s;
       width: 0;
       height: 0;
       &:checked + ${Slider} {
-            background-color: ${(props) => props.theme.boardColor};
+        background-color: #9400d3;
         }
 
         &:checked + ${Slider}::before {

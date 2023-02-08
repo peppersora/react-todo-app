@@ -1,8 +1,13 @@
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import clsx from "clsx";
 import { useEffect } from "react";
-import { DragDropContext, DropResult, ResponderProvided } from "react-beautiful-dnd";
+import { DragDropContext, Droppable, DropResult, ResponderProvided } from "react-beautiful-dnd";
 import { Helmet } from "react-helmet-async";
 import { useRecoilState } from "recoil";
 import styled from "styled-components";
+import MakeBoard from "../components/AddCategory";
+import DroppableCard from '../components/Board';
 import { todostate } from "../localstorage/atoms";
 import { breakpoints, device } from "../styles/theme";
 
@@ -142,7 +147,7 @@ const MainPage = () => {
             <h4>1. Adding todo form and save todos to localstorage</h4>
             <h4>2. Deleting using drag</h4>
             <h4>3. Adding Category and moving between categories</h4> */}
-            <AddCategoryButton />
+            <MakeBoard/>
             <DragDropContext onDragEnd={onDragEnd}>
                 <Droppable
                     droppableId={'category'}
@@ -159,7 +164,7 @@ const MainPage = () => {
                                             index={index}
                                             droppableId={t}
                                             title={t}
-                                            todos={todos[t]}
+                                            IToDo={todos[t]}
                                         />
                                     ),
                             )}

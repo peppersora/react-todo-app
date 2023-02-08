@@ -11,6 +11,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import clsx from "clsx";
 
+
 const CardWrapper = styled.div`
     width: 100%;
     flex: 1;
@@ -21,7 +22,7 @@ const CardWrapper = styled.div`
     flex-direction: column;
     padding: 10px;
     margin-bottom: 10px;
-    background-color: ${(props) => props.theme.boardColor};
+    background-color: ${(props) => props.theme.background.secondary};
     border-radius: 8px;
     position: relative;
     transition: transform 0.3s ease-in-out;
@@ -54,8 +55,8 @@ const CardWrapper = styled.div`
     input[type='text'] {
         width: 100%;
         outline: none;
-        border: 1px solid ${(props) => props.theme.boardColor};
-        background-color: ${(props) => props.theme.bgColor};
+        border: 1px solid ${(props) => props.theme.color.border};
+        background-color: ${(props) => props.theme.background.primary};
         border-radius: 5px;
         padding: 5px 10px;
     }
@@ -63,10 +64,10 @@ const CardWrapper = styled.div`
     button {
         margin: 5px 0;
         outline: none;
-        border: 1px solid ${(props) => props.theme.boardColor};
+        border: 1px solid ${(props) => props.theme.color.border};
         border-radius: 5px;
-        background-color: ${(props) => props.theme.bgColor};
-        color: ${(props) => props.theme.cardColor};
+        background-color: ${(props) => props.theme.background.button};
+        color: ${(props) => props.theme.color.button};
         padding: 5px 0;
         cursor: pointer;
     }
@@ -138,26 +139,23 @@ const DeleteButtonWrapper = styled.div`
 `;
 
 
-interface Itodos{
-  droppableId: string;
-  index: number;
-  IToDo:ITodo[];
-  title: string;
-  
-}
-
-interface IForm {
+type IForm = {
   todo:string;
  
  }
 
- const droppableCard = 
- ({droppableId,index,IToDo,title}:Itodos) => {
+const DroppableCard: React.FC<{
+    index: number;
+    IToDo:ITodo[];
+    droppableId: string;
+    title: string;
+}> = ({ IToDo, droppableId, title, index }) => {
 
    const {register, setValue, handleSubmit} = useForm<IForm>({
     mode:"onBlur",
    });
 
+   
    const [todoState, setTodoState] = useRecoilState(todostate);
 
    const onDeleteBtn = () => {
@@ -267,5 +265,5 @@ return (
   // droppableCard
 
 
-  export default React.memo(droppableCard);
+  export default React.memo(DroppableCard);
 

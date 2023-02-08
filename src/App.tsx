@@ -4,22 +4,20 @@ import { useRecoilState } from "recoil";
 import { Helmet, HelmetProvider } from 'react-helmet-async';
 import styled, { ThemeProvider } from "styled-components";
 import { ColorState, defaultTodos, todostate } from "./localstorage/atoms";
-import Board from "./components/Board";
 import Clock from "./components/Clock";
-import GarbageBox from "./components/GarbageBox";
 import { ToggleSwitch } from "./components/ToggleSwitch";
 import { loadTodos } from "./localstorage/localstorage";
 import { darkTheme, lightTheme } from "./styles/theme";
 import { QueryClient, QueryClientProvider } from "react-query";
+import MainRouter from "./routes/MainRouter";
 
 const queryClient = new QueryClient();
 
 const Container = styled.div`
     width: 100vw;
     height: 100vh;
-   
-    background-color: ${(props) => props.theme.bgColor};
-    color: ${(props) => props.theme.boardColor};
+    background-color: ${(props) => props.theme.background.primary};
+    color: ${(props) => props.theme.color.primary};
     display: flex;
     justify-content: center;
     overflow: scroll;
@@ -65,9 +63,7 @@ function App() {
       </Helmet>
      <Clock/>    
       <Container>
-        <Boards>      
-        </Boards>
-        <GarbageBox/>
+       <MainRouter/>
       </Container>
     </ThemeProvider>
     </QueryClientProvider>

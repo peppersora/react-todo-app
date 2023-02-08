@@ -2,7 +2,7 @@ import { KeyboardEventHandler, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useRecoilState} from "recoil";
 import styled from "styled-components";
-import {  toDoState } from "../atoms";
+import { todostate } from "../localstorage/atoms";
 
 
 
@@ -12,12 +12,12 @@ min-width: 300px;
 max-width: 300px;
 padding: 10px;
 margin-top: 10px;
-background-color: ${(props) => props.theme.boardColor};
+background-color: ${(props) => props.theme.background.secondary};
 border-radius: 5px;
 
 
 button {
-  background-color: ${(props) => props.theme.cardColor};
+  background-color: ${(props) => props.theme.background.button};
         color: black;
         font-weight: 600;
         outline: none;
@@ -37,7 +37,7 @@ const Form = styled.form`
   input {
     width: 100%;
     outline: none;
-    border: 1px solid ${(props) => props.theme.cardColor};
+    border: 1px solid ${(props) => props.theme.color.border};
     padding: 5px 10px;
     border-radius: 8px;
   }
@@ -60,7 +60,7 @@ interface categoryForm{
 // button을 클릭하면 board가 생성됨
 function MakeBoard () {
     const [open, setOpen] = useState(false);
-    const [todos, setTodos] = useRecoilState(toDoState)
+    const [todos, setTodos] = useRecoilState(todostate)
     const {register, setValue, handleSubmit,setFocus} = 
     useForm<categoryForm>({
       mode: "onBlur",

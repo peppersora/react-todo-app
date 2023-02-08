@@ -6,7 +6,7 @@ import clsx from 'clsx';
 
 const Card = styled.div`
     width: 100%;
-    background-color: ${(props) => props.theme.bgColor};
+    background-color: ${(props) => props.theme.background.primary};
     padding: 10px;
     border-radius: 5px;
 
