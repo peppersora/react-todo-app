@@ -1,13 +1,15 @@
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import { Draggable, Droppable } from "react-beautiful-dnd";
 import { SubmitHandler, useForm } from "react-hook-form";
 import styled from "styled-components";
 import DraggableCard from "./DraggableCard";
-import { ITodo, IToDos, latestId, todostate } from "../atoms";
+import { ITodo, latestId, todostate } from "../localstorage/atoms";
 import { useRecoilState } from "recoil";
-import { SaveTodos } from "../localstorage";
+import { SaveTodos } from "../localstorage/localstorage";
 import React from "react";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
+import clsx from "clsx";
 
 const CardWrapper = styled.div`
     width: 100%;
@@ -25,7 +27,7 @@ const CardWrapper = styled.div`
     transition: transform 0.3s ease-in-out;
 
     &.category-drag {
-        transform: rotate(15deg);
+        transform: rotate(15deg);   
     }
 
     h2 {
@@ -33,7 +35,6 @@ const CardWrapper = styled.div`
         font-weight: 500;
         text-align: center;
         background-color: inherit;
-        /* color: ${(props) => props.theme.bgColor.link}; */
     }
 
     h4 {
@@ -71,14 +72,13 @@ const CardWrapper = styled.div`
     }
 `;
 
-const CardArea = styled.div<IAreaProps>`
+const CardArea = styled.div`
     display: flex;
-    /* background-color: inherit; */
+    background-color: inherit;
     flex-direction: column;
-    background-color:${(props) => props.isDraggingOver ? "#dfe6e9" : 
-    props.draggingFromThisWith ? "#b2bec3" : "transparent"};
     flex-grow: 1;
     transition: background-color 0.3s ease-in-out;
+
     &.dragging {
         background-color: red;
     }
@@ -137,16 +137,12 @@ const DeleteButtonWrapper = styled.div`
     }
 `;
 
-interface IAreaProps{
-  isDraggingOver:boolean;
-  draggingFromThisWith: boolean;
-}
-
 
 interface Itodos{
-  draggableId: string;
+  droppableId: string;
   index: number;
-  IToDo:ITodo;
+  IToDo:ITodo[];
+  title: string;
   
 }
 
@@ -156,11 +152,12 @@ interface IForm {
  }
 
  const droppableCard = 
- ({droppableId,index,IToDo}:Itodos) => {
+ ({droppableId,index,IToDo,title}:Itodos) => {
 
    const {register, setValue, handleSubmit} = useForm<IForm>({
     mode:"onBlur",
    });
+
    const [todoState, setTodoState] = useRecoilState(todostate);
 
    const onDeleteBtn = () => {
@@ -175,9 +172,9 @@ interface IForm {
     if (data.todo === '') return;
     setTodoState((prev) => {
         const newTodo = prev[droppableId] ? prev[droppableId].slice(0) : [];
-        newTodo.splice(0, 0, {
+            newTodo.splice(0, 0, {
             id: latestId.id,
-            name: data.todo,
+            name: data.todo ,
             createdAt: new Date(),
         });
         latestId.id += 1;
@@ -212,7 +209,7 @@ return (
                           size={'xs'}
                       />
                   </DeleteButtonWrapper>
-                  {/* <h2>{title}</h2> */}
+                  <h2>{title}</h2>
                   <Droppable droppableId={droppableId}>
                       {(p, { isDraggingOver, draggingFromThisWith }) => (
                           <div

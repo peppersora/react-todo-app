@@ -1,23 +1,28 @@
 // https://github.com/peppersora/react-todo-app.git
-import { DragDropContext, DropResult } from "react-beautiful-dnd";
+import { useEffect } from "react";
 import { useRecoilState } from "recoil";
-import styled from "styled-components";
-import { todostate, toDoState } from "./atoms";
+import { Helmet, HelmetProvider } from 'react-helmet-async';
+import styled, { ThemeProvider } from "styled-components";
+import { ColorState, defaultTodos, todostate } from "./localstorage/atoms";
 import Board from "./components/Board";
 import Clock from "./components/Clock";
 import GarbageBox from "./components/GarbageBox";
-import MakeBoard from "./components/MakeBoard";
 import { ToggleSwitch } from "./components/ToggleSwitch";
+import { loadTodos } from "./localstorage/localstorage";
+import { darkTheme, lightTheme } from "./styles/theme";
+import { QueryClient, QueryClientProvider } from "react-query";
 
+const queryClient = new QueryClient();
 
-
-const Wrapper = styled.div`
-  display: flex;
-  width: 100vw;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
+const Container = styled.div`
+    width: 100vw;
+    height: 100vh;
+   
+    background-color: ${(props) => props.theme.bgColor};
+    color: ${(props) => props.theme.boardColor};
+    display: flex;
+    justify-content: center;
+    overflow: scroll;
 `;
 
 
@@ -30,65 +35,43 @@ const Boards = styled.div`
 
 `;
 
-function App() {
-  // atom의 값 뿐만아니라 수정하는 값까지 가지고 오기위해 state를 사용
-  const [toDos, setToDos] = useRecoilState(todostate);
-  // onDragEnd Fn은 드래그가 끝났을때 실행되는 함수
-  const onDragEnd = (info:DropResult) =>  {
-    // console.log(info); 
-    const { destination, draggableId, source } = info;
-    if (!destination) return;
-    if (destination?.droppableId === source.droppableId) {
-      // 같은 보드에서만 움직였다.
-      setToDos((allBoards) => {
-        const boardCopy = [...allBoards[source.droppableId]];
-        const taskObj = boardCopy[source.index];
-        boardCopy.splice(source.index, 1);
-        boardCopy.splice(destination?.index, 0, taskObj);
-        // allBoards는 array이기때문에...
-        return {
-          ...allBoards,
-          [source.droppableId]: boardCopy,
-        };
-      });
-    }
-    if(destination?.droppableId !== source.droppableId){
-      // board간의 이동을 하겠다.
-      // modifier함수(setToDos)를 사용하는 방법 1. value자체를 가져와서 사용
-      //2. 새로운 state를 만들어서 return 해줄 수 있다.
-      setToDos((allBoards) => {
-        const sourceBoard = [...allBoards[source.droppableId]];
-        const taskObj = sourceBoard[source.index];
-        const destinationBoard = [...allBoards[destination?.droppableId]];
-        // 가져오는것은 다했으니 이제 삭제하기
-        sourceBoard.splice(source.index,1);
-        // sourceBoard에서 index를 한개만 삭제할것이다
-        destinationBoard.splice(destination?.index,0,taskObj);
-        // 가져온 draggableId를 움직임이 끝나는 board의 index에 넣어줬다.
-        return{
-          ...allBoards,
-          [source.droppableId]:sourceBoard,
-          [destination?.droppableId] : destinationBoard ,
-        }
 
-      });
-    }
-  };
+function App() {
+  const [colorSelector] = useRecoilState(ColorState);
+  // atom의 값 뿐만아니라 수정하는 값까지 가지고 오기위해 state를 사용
+  const [, setToDos] = useRecoilState(todostate);
+  // onDragEnd Fn은 드래그가 끝났을때 실행되는 함수
+  useEffect(() => {
+    setToDos(loadTodos() ?? defaultTodos);
+}, [setToDos]);
  
   return (
-    <DragDropContext onDragEnd={onDragEnd}> 
-     <Clock/>  
-      <MakeBoard/>   
-      <Wrapper>
-        <Boards>
-          {Object.keys(toDos).map((boardId) => (
-            <Board boardId={boardId} key={boardId}  toDos={toDos[boardId]} />
-          ))}
+    <HelmetProvider>
+    <QueryClientProvider client={queryClient}>
+    <ThemeProvider theme={colorSelector === "dark" ? darkTheme : lightTheme}>
+      <Helmet>
+      <link
+                            rel="preconnect"
+                            href="https://fonts.googleapis.com"
+                        />
+                        <link
+                            rel="preconnect"
+                            href="https://fonts.gstatic.com"
+                        />
+                        <link
+                            href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@200;400;600&display=swap"
+                            rel="stylesheet"
+                        />
+      </Helmet>
+     <Clock/>    
+      <Container>
+        <Boards>      
         </Boards>
         <GarbageBox/>
-      </Wrapper>
-      
-    </DragDropContext>
+      </Container>
+    </ThemeProvider>
+    </QueryClientProvider>
+    </HelmetProvider>
   );
 }
 

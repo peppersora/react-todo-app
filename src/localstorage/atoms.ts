@@ -1,5 +1,6 @@
 import { atom } from "recoil";
 import { loadTodos } from "./localstorage";
+import { lightTheme } from "../styles/theme";
 // string이 아닌 object인 todo를 만들기 위해 type을 먼저 정하자
 
 // localstorage를 위해 recoilpersist사용
@@ -8,9 +9,13 @@ import { loadTodos } from "./localstorage";
 //   storage: localStorage,
 // });
 
+export const ColorState = atom<"dark" | "light">({
+  key: "ColorState",
+  default: "light",
+});
 
 export interface ITodo {
-  map(arg0: (todo: any, index: any) => JSX.Element): import("react").ReactNode;
+ 
   id: number;
   name: string;
   createdAt: Date;

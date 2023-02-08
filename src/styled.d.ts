@@ -2,8 +2,23 @@ import "styled-components";
 
 declare module "styled-components" {
   export interface DefaultTheme {
-    bgColor: string;
-    boardColor: string;
-    cardColor: string;
+      color: {
+          primary: string;
+          secondary: string;
+          border: string;
+          link: string;
+          button: string;
+          error?: string;
+          warning?: string;
+          info?: string;
+          success?: string;
+          like?: string;
+      };
+      background: {
+          primary: string;
+          secondary: string;
+          avatar: string;
+          button: string;
+      };
   }
 }

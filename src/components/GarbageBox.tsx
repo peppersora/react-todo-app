@@ -2,7 +2,7 @@ import {  Droppable } from "react-beautiful-dnd";
 import { BsTrash }  from "react-icons/bs"
 import { useRecoilValue } from "recoil";
 import styled from "styled-components";
-import { garbageBox } from "../atoms";
+import { garbageBox } from "../localstorage/atoms";
 
 const GarbageWrapper = styled.div`
 position: absolute;

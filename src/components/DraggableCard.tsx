@@ -1,7 +1,7 @@
 import React from "react";
 import { Draggable } from "react-beautiful-dnd";
 import styled from "styled-components";
-import { ITodo,  } from "../atoms";
+import { ITodo,  } from "../localstorage/atoms";
 import clsx from 'clsx';
 
 const Card = styled.div`
