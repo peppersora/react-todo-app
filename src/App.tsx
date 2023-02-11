@@ -24,16 +24,6 @@ const Container = styled.div`
 `;
 
 
-const Boards = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  gap: 10px;
-
-`;
-
-
 function App() {
   const [colorSelector] = useRecoilState(ColorState);
   // atom의 값 뿐만아니라 수정하는 값까지 가지고 오기위해 state를 사용

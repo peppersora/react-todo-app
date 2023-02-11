@@ -18,6 +18,7 @@ export const lightTheme: DefaultTheme = {
         avatar: '#dbdbdb',
     },
 };
+
 export const darkTheme: DefaultTheme = {
     color: {
         primary: '#eee',
@@ -35,7 +36,7 @@ export const darkTheme: DefaultTheme = {
     },
 };
 
-// W3School.com 기준 5단계 breakpoint
+
 export const breakpoints = {
     xs: '480px',
     sm: '600px',
